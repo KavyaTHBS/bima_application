@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "925484095896",
+    "project_id": "bima-application",
+    "storage_bucket": "bima-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925484095896:android:21001356484156b987b3ed",
+        "android_client_info": {
+          "package_name": "com.example.bima_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925484095896-vuuu6kr5ofpthi7eptmthodrld2piq6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB11oyqrAyyFrLUuTE-13wCW141NenVwZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925484095896-vuuu6kr5ofpthi7eptmthodrld2piq6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
