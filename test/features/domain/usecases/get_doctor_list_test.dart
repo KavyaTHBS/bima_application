@@ -18,13 +18,14 @@ void main(){
   });
   
   final id = 1;
-  final doctorResult = Doctor('Amitabh', 'Bachchan', "General Practice", "Meet Dr. Amitabh, our Chief Medical Officer. Dr. Amitabh completed his medical training at University of India Medical School and has practiced medicine for over 8 years. His passion is to reach out to every Indiaian with quality medical information and care and this is why he loves telemedicine. He enjoys reading, watching movies and listening to music.", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Indian_actor_Amitabh_Bachchan.jpg/440px-Indian_actor_Amitabh_Bachchan.jpg", 1);
+ final List<Doctor> doctorResult = Doctor('Amitabh', 'Bachchan', "General Practice", "Meet Dr. Amitabh, our Chief Medical Officer. Dr. Amitabh completed his medical training at University of India Medical School and has practiced medicine for over 8 years. His passion is to reach out to every Indiaian with quality medical information and care and this is why he loves telemedicine. He enjoys reading, watching movies and listening to music.", "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Indian_actor_Amitabh_Bachchan.jpg/440px-Indian_actor_Amitabh_Bachchan.jpg", 1) as List<Doctor>;
 
   test(
     "Should get doctor list from repository",
       () async {
       when(mockDoctorListRepository?.getDoctorList()).thenAnswer((_) async =>Right(doctorResult) );
-      final result = await usecase?.execute();
+     // final result = await usecase?.execute();
+      final result = await usecase!;
       verify(mockDoctorListRepository?.getDoctorList());
       verifyNoMoreInteractions(mockDoctorListRepository);
       }

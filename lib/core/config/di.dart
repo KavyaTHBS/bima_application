@@ -16,4 +16,7 @@ void setUp(){
   // Infra services
   sl.registerLazySingleton<AuthenticationService>(
           () => FirebaseAuthentication());
+
+  //get DoctorList
+
 }
