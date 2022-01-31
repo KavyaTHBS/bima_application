@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 
 class ApiClient {
   final Client _client;
-  final String apiUri = "https://5efdb0b9dd373900160b35e2.mockapi.io/contacts";
+    final String apiUri = "https://5efdb0b9dd373900160b35e2.mockapi.io/contacts";
 
   ApiClient(this._client);
 
@@ -13,9 +13,14 @@ class ApiClient {
     );
 
     if (response.statusCode == 200) {
+      print('response body: $response.body');
+
       return json.decode(response.body);
     } else {
+      print('exception : $response');
+
       throw Exception(response.reasonPhrase);
+
     }
   }
 

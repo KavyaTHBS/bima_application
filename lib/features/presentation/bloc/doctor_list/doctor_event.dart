@@ -6,6 +6,7 @@ abstract class DoctorBlocEvent extends Equatable{
   @override
   List<Object> get props =>[];
 }
+
 class GetDoctorBlocEvent extends DoctorBlocEvent{
 
 }

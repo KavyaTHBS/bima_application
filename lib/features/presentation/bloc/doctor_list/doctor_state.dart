@@ -7,3 +7,11 @@ abstract class DoctorBlocState extends Equatable{
 
 }
 class DoctorBlocInitial extends DoctorBlocState{}
+
+class DoctorLoadedState extends DoctorBlocState {
+  final List<Doctor> listOfDoctors;
+
+  const DoctorLoadedState({required this.listOfDoctors});
+  @override
+  List<Object> get props => [listOfDoctors];
+}

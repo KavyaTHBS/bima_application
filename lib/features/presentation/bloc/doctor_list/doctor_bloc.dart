@@ -9,14 +9,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'doctor_event.dart';
 part 'doctor_state.dart';
-abstract class DoctorBloc extends Bloc<DoctorBlocEvent, DoctorBlocState>{
+ class DoctorBloc extends Bloc<DoctorBlocEvent, DoctorBlocState>{
   final GetDoctorList getDoctorList;
   DoctorBloc(this.getDoctorList) : super(DoctorBlocInitial()){
     on<GetDoctorBlocEvent>((event, emit) async {
       final Either<Failure, List<Doctor>> response = await getDoctorList(NoParams());
       emit(response.fold(
           (failure) => DoctorListFailed(errorMessage: "Failed to load Doctor list"),
-          (doctors) => DoctorListLoaded(doctorList: doctors)
+          (doctors) => DoctorLoadedState(listOfDoctors: doctors)
       ));
     } );
   }

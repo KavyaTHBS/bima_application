@@ -32,8 +32,8 @@ void main(){
   });
 
   group('getDoctorList',(){
-    final doctorModel = DoctorModel();
-    final Doctor doctorEntity = doctorModel;
+  //  final doctorModel = DoctorModel();
+   // final Doctor doctorEntity = doctorModel;
     test('should check if the device is online',
         (){
       //arrange
