@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:js';
-import 'package:bima_application/features/domain/repositories/authentication.dart';
+import 'dart:js';
+
 import 'package:bima_application/features/domain/usecases/authentication/sign_in.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -12,14 +15,14 @@ part 'login_state.dart';
 
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  late SignInUseCase signIn  ;
+  late SignInUseCase signInwithPhoneNumber  ;
 
   //LoginBloc(LoginState initialState) : super(initialState);
   static LoginState? get initialState => null;
 
 
   LoginBloc({ required SignInUseCase signInUseCase}) : super(initialState!) {
-     signIn= signInUseCase;
+    signInwithPhoneNumber= signInUseCase;
   }
 
 
@@ -33,10 +36,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Stream<LoginState> _mapDoLoginToState(String phoneNumber, String smsCode) async* {
+  Stream<LoginState> _mapDoLoginToState(String verificationId,String smsCode) async* {
     try {
-      final response = await signIn(phoneNumber, smsCode);
-      print(response);
+      final response = await signInwithPhoneNumber(verificationId,smsCode);
       yield LoginSuccess();
     } catch (e) {
       yield LoginFailure(e.toString());

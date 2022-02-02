@@ -1,4 +1,6 @@
 import 'package:bima_application/features/data/core/api_client.dart';
+import 'package:bima_application/features/data/datasources/binding/local/doctor_local_data_source.dart';
+import 'package:bima_application/features/data/datasources/binding/local/doctor_local_data_source_impl.dart';
 import 'package:bima_application/features/data/datasources/binding/remote/doctor_remote_data_source.dart';
 import 'package:bima_application/features/data/datasources/binding/remote/doctor_remote_data_source_impl.dart';
 import 'package:bima_application/features/data/repositories/doctor_list_repository_impl.dart';
@@ -36,8 +38,10 @@ Future<void> setUp()async {
 
   sl.registerLazySingleton<DoctorRemoteDataSource>(
           () => DoctorRemoteDataSourceImpl(client: sl()));
+sl.registerLazySingleton<DoctorLocalDataSource>(
+          () => DoctorLocalDataSourceImpl());
 
-  sl.registerLazySingleton<DoctorListRepository>(() => DoctorListRepositoryImpl(remoteDataSource: sl()));
+  sl.registerLazySingleton<DoctorListRepository>(() => DoctorListRepositoryImpl(remoteDataSource: sl(), localDataSource: sl()));
   sl.registerLazySingleton<Client>(() => Client());
   sl.registerLazySingleton<ApiClient>(() => ApiClient(sl()));
 }
