@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:bima_application/features/domain/entities/doctor.dart';
+import 'package:bima_application/features/presentation/pages/doctor_detail_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,8 +23,8 @@ Future<void> main() async {
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]));
  await di.setUp();
 
-  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDir.path);
+ // final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+ // Hive.init(appDocumentDir.path);
    Hive.registerAdapter(DoctorTableAdapter());
    //await Hive.openBox<DoctorTable>('DoctorTable');
   runApp( const MyApps());
@@ -37,7 +39,9 @@ class MyApps extends StatelessWidget{
       child: MaterialApp(
         title: "bima app",
     theme: ThemeData(
-    primarySwatch: Colors.blue,
+    primaryColor: Colors.blue,
+      primaryColorDark: Colors.blueAccent,
+      accentColor: Colors.orangeAccent,
     ),
         home: const TestClass(),
       ),
@@ -109,7 +113,9 @@ class _TestClassState extends State<TestClass> {
 
                            ),
                          ],),
-                         trailing: IconButton(icon: Icon(Icons.arrow_forward_ios),onPressed: () {},),
+                         trailing: IconButton(icon: Icon(Icons.arrow_forward_ios),onPressed: () {
+                           _navigateToDoctorDetailPage(context,state.listOfDoctors[index]);
+                         },),
                          title: Padding(
                            padding:  const EdgeInsets.only(left: 90),
                            child: Text(state.listOfDoctors[index].firstName + ' ' + state.listOfDoctors[index].lastName,
@@ -126,5 +132,11 @@ class _TestClassState extends State<TestClass> {
               ],
             ),
     );
+  }
+
+  void _navigateToDoctorDetailPage(BuildContext context, Doctor listOfDoctor) {
+    Navigator.push(context, 
+    MaterialPageRoute(
+        builder: (context) => DoctorDetailPage(detailsOfDoctor: listOfDoctor,)));
   }
 }
