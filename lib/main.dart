@@ -11,39 +11,71 @@ import 'core/config/di.dart' as di;
 import 'core/config/di.dart';
 import 'features/data/datasources/binding/tables/doctor_table.dart';
 import 'features/presentation/bloc/doctor_list/doctor_bloc.dart';
+import 'features/presentation/cubits/auth_cubit.dart';
+import 'features/presentation/cubits/auth_state.dart';
 import 'features/presentation/pages/doctor_list_page.dart';
+import 'features/presentation/pages/firebase_auth_page.dart';
+import 'features/presentation/theme/theme.dart';
 import 'features/presentation/widgets/app.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
-  unawaited(
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]));
- await di.setUp();
+  await Firebase.initializeApp();
+  await di.setUp();
 
  // final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
  // Hive.init(appDocumentDir.path);
    Hive.registerAdapter(DoctorTableAdapter());
    //await Hive.openBox<DoctorTable>('DoctorTable');
-  runApp( const MyApps());
+  runApp(  MyApps());
 }
 class MyApps extends StatelessWidget{
-  const MyApps({Key? key}) : super(key: key);
-
+   MyApps({Key? key}) : super(key: key);
+final Future<FirebaseApp> initialization = Firebase.initializeApp();
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<DoctorBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<DoctorBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => AuthCubit(),
+        ),
+      ],
       child: MaterialApp(
-        title: "bima app",
-    theme: ThemeData(
-    primaryColor: Colors.blue,
-      primaryColorDark: Colors.blueAccent,
-      accentColor: Colors.orangeAccent,
-    ),
-        home: const TestClass(),
+        title: 'Bima App',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        home: FutureBuilder(
+          future: initialization,
+          builder: (context,snapshot){
+            if(snapshot.hasError){
+              print('Error');
+            }
+            if(snapshot.connectionState == ConnectionState.done){
+              return  BlocBuilder<AuthCubit, AuthState>(
+            buildWhen: (oldState, newState) {
+            return oldState is AuthInitialState;
+            },
+            builder: (context, state) {
+            if (state is AuthLoggedInState) {
+            return const TestClass();
+            } else if (state is AuthLoggedOutState) {
+            return const SignIn();
+            } else {
+            return const Scaffold();
+            }
+            },
+            )
+            ;
+            }
+            return CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }
@@ -138,5 +170,45 @@ class _TestClassState extends State<TestClass> {
     Navigator.push(context, 
     MaterialPageRoute(
         builder: (context) => DoctorDetailPage(detailsOfDoctor: listOfDoctor,)));
+  }
+}
+
+
+//auth
+class FirebaseAuthPage extends StatelessWidget {
+  const FirebaseAuthPage({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<DoctorBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => AuthCubit(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Bima POC',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        home: BlocBuilder<AuthCubit, AuthState>(
+          buildWhen: (oldState, newState) {
+            return oldState is AuthInitialState;
+          },
+          builder: (context, state) {
+            if (state is AuthLoggedInState) {
+              return const TestClass();
+            } else if (state is AuthLoggedOutState) {
+              return const SignIn();
+            } else {
+              return const Scaffold();
+            }
+          },
+        ),
+      ),
+    );
   }
 }
