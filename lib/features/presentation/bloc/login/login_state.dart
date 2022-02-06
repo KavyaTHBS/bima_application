@@ -28,4 +28,6 @@ class AuthCodeSentState extends LoginState {}
 class AuthErrorState extends LoginState {
   final String error;
   const AuthErrorState(this.error);
+
+
 }

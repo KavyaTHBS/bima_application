@@ -19,16 +19,13 @@ final sl =GetIt.I;
 Future<void> setUp()async {
 
   // Blocs
- // sl.registerFactory(() => LoginBloc(signInUseCase: sl()));
+  sl.registerFactory(() => LoginBloc(signInWithPhoneNumber:sl(),verifySmsCode:sl()));
 
   // Use cases
- // sl.registerLazySingleton(() => SignInUseCase(sl()));
+  sl.registerLazySingleton(() => VerifySmsCode(sl()));
 
   // Infra services
- // sl.registerLazySingleton<AuthenticationService>(
-   //       () => FirebaseAuthentication());
-//sl.registerLazySingleton<ApiClient>(
-   //       () => ApiClient(sl()));
+ sl.registerLazySingleton<AuthenticationService>(() => FirebaseAuthentication(sl()));
 
   //get DoctorList
   sl.registerFactory(() => DoctorBloc(sl()));

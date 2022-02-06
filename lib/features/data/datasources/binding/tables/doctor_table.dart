@@ -39,16 +39,25 @@ class DoctorTable extends DoctorModel {
 
 
 
-  factory DoctorTable.fromDoctorModel(DoctorModel doctorModel) {
-    return DoctorTable(
-      id: doctorModel.id,
-      firstName: doctorModel.firstName,
-      lastName: doctorModel.lastName,
-      profilePic: doctorModel.profilePic,
-      primaryContactNo: doctorModel.primaryContactNo,
-      rating: doctorModel.rating,
-      description: doctorModel.description,
-      specialization: doctorModel.specialization,
-    );
-  }
+  factory DoctorTable.fromModel(DoctorModel model) => DoctorTable(
+      id: model.id,
+      firstName: model.firstName,
+      lastName: model.lastName,
+      profilePic: model.profilePic,
+      specialization: model.specialization,
+      description: model.description,
+      rating: model.rating,
+      primaryContactNo: model.primaryContactNo);
+
+  static DoctorModel toModel(DoctorTable table) => DoctorModel(
+      id: table.id,
+      firstName: table.firstName,
+      lastName: table.lastName,
+      profilePic: table.profilePic,
+      specialization: table.specialization,
+      description: table.description,
+      rating: table.rating,
+  primaryContactNo: table.primaryContactNo);
+
+
 }

@@ -3,7 +3,7 @@ import 'package:bima_application/features/presentation/bloc/doctor_list/doctor_b
 
 class DoctorListLoaded extends DoctorBlocState{
   final List<Doctor> doctorList;
-  DoctorListLoaded({required this.doctorList});
+  const DoctorListLoaded({required this.doctorList});
 
   @override
   List<Object> get props => [doctorList];
@@ -12,6 +12,6 @@ class DoctorListLoaded extends DoctorBlocState{
  class DoctorListFailed extends DoctorBlocState{
   final String errorMessage;
 
-  DoctorListFailed({ required this.errorMessage});
+  const DoctorListFailed({ required this.errorMessage});
  }
 

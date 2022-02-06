@@ -12,6 +12,8 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource{
     print('result: $response');
     final doctorList = List.from(response).map((e) => DoctorModel.fromJson(e)).toList();
     print("doctor list : $doctorList");
+    doctorList.sort((a, b) => b.rating.compareTo(a.rating));
+    print("doctor list after sorting : $doctorList");
     return doctorList;
   }
 

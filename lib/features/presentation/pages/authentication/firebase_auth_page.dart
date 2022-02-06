@@ -1,7 +1,7 @@
 import 'package:bima_application/features/presentation/bloc/doctor_list/doctor_bloc.dart';
 import 'package:bima_application/features/presentation/cubits/auth_cubit.dart';
 import 'package:bima_application/features/presentation/cubits/auth_state.dart';
-import 'package:bima_application/features/presentation/pages/verify_phone_num_page.dart';
+import 'package:bima_application/features/presentation/pages/authentication/verify_phone_num_page.dart';
 import 'package:bima_application/features/presentation/theme/color.dart';
 import 'package:bima_application/features/presentation/theme/text_styles.dart';
 import 'package:bima_application/features/presentation/theme/theme.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../main.dart';
+import '../../../../main.dart';
 
 /*
 class FirebaseAuthPage extends StatelessWidget {

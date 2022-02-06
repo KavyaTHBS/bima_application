@@ -8,6 +8,14 @@ abstract class DoctorBlocState extends Equatable{
 }
 class DoctorBlocInitial extends DoctorBlocState{}
 
+class DoctorsFailed extends DoctorBlocState {
+  final String message;
+
+  const DoctorsFailed({required this.message});
+  @override
+  List<Object> get props => [message];
+}
+
 class DoctorLoadedState extends DoctorBlocState {
   final List<Doctor> listOfDoctors;
 
@@ -15,3 +23,4 @@ class DoctorLoadedState extends DoctorBlocState {
   @override
   List<Object> get props => [listOfDoctors];
 }
+class Loading extends DoctorBlocState {}

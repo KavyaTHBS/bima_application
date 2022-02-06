@@ -18,28 +18,35 @@ class AuthCubit extends Cubit<AuthState> {
 
   void sendOTP(String phoneNumber) async {
     emit(AuthLoadingState());
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      codeSent: (verificationId, forceResendingToken) {
-        _verificationId = verificationId;
-        emit(AuthCodeSentState());
-      },
-      verificationCompleted: (phoneAuthCredential) {
-        signInWithPhone(phoneAuthCredential);
-      },
-      verificationFailed: (error) {
-        emit(AuthErrorState(error.message.toString()));
-      },
-      codeAutoRetrievalTimeout: (verificationId) {
-        _verificationId = verificationId;
-      },
-    );
+    // await _auth.verifyPhoneNumber(
+    //   phoneNumber: phoneNumber,
+    //   codeSent: (verificationId, forceResendingToken) {
+    //     _verificationId = verificationId;
+    //     emit(AuthCodeSentState());
+    //   },
+    //   verificationCompleted: (phoneAuthCredential) {
+    //     signInWithPhone(phoneAuthCredential);
+    //   },
+    //   verificationFailed: (error) {
+    //     emit(AuthErrorState(error.message.toString()));
+    //   },
+    //   codeAutoRetrievalTimeout: (verificationId) {
+    //     _verificationId = verificationId;
+    //   },
+    // );
+await _auth.signInWithPhoneNumber(phoneNumber);
+    emit(AuthCodeSentState());
+
+
+
+
   }
 
   void verifyOTP(String otp) async {
     emit(AuthLoadingState());
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: _verificationId!, smsCode: otp);
+    print('verify otp: $credential');
     signInWithPhone(credential);
   }
 
@@ -47,6 +54,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
+      print('userCredential: $userCredential');
       if (userCredential.user != null) {
         emit(AuthLoggedInState(userCredential.user!));
       }

@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:bima_application/core/util/constants.dart';
 import 'package:bima_application/features/domain/entities/doctor.dart';
-import 'package:bima_application/features/presentation/pages/doctor_detail_page.dart';
+import 'package:bima_application/features/presentation/pages/doctor/doctor_detail_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'core/config/di.dart' as di;
@@ -13,8 +13,8 @@ import 'features/data/datasources/binding/tables/doctor_table.dart';
 import 'features/presentation/bloc/doctor_list/doctor_bloc.dart';
 import 'features/presentation/cubits/auth_cubit.dart';
 import 'features/presentation/cubits/auth_state.dart';
-import 'features/presentation/pages/doctor_list_page.dart';
-import 'features/presentation/pages/firebase_auth_page.dart';
+import 'features/presentation/pages/doctor/doctor_list_page.dart';
+import 'features/presentation/pages/authentication/firebase_auth_page.dart';
 import 'features/presentation/theme/theme.dart';
 import 'features/presentation/widgets/app.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -22,13 +22,19 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await di.setUp();
+  await Firebase.initializeApp(
 
- // final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
- // Hive.init(appDocumentDir.path);
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyCAeTCTbEl4Cjbwfuxm9z31ieAGv3u_YcU", // Your apiKey
+      appId: "1:925484095896:web:80c5593d5a01ea8387b3ed", // Your appId
+      messagingSenderId: "925484095896", // Your messagingSenderId
+      projectId: "bima-application", // Your projectId
+    ),
+  );
+  await di.setUp();
+  await Constants.initDatabase();
+  Constants.registerAdapter<DoctorTable>(DoctorTableAdapter());
    Hive.registerAdapter(DoctorTableAdapter());
-   //await Hive.openBox<DoctorTable>('DoctorTable');
   runApp(  MyApps());
 }
 class MyApps extends StatelessWidget{
@@ -57,7 +63,15 @@ final Future<FirebaseApp> initialization = Firebase.initializeApp();
               print('Error');
             }
             if(snapshot.connectionState == ConnectionState.done){
-              return  BlocBuilder<AuthCubit, AuthState>(
+              return  MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+
+                    create: (context) => AuthCubit(),
+
+                  ),
+                ],
+                child: BlocBuilder<AuthCubit, AuthState>(
             buildWhen: (oldState, newState) {
             return oldState is AuthInitialState;
             },
@@ -70,7 +84,8 @@ final Future<FirebaseApp> initialization = Firebase.initializeApp();
             return const Scaffold();
             }
             },
-            )
+            ),
+              )
             ;
             }
             return CircularProgressIndicator();

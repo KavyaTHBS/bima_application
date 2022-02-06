@@ -1,15 +1,14 @@
 import 'dart:ui';
 
-import 'package:bima_application/core/error/app_error.dart';
 import 'package:bima_application/core/error/failures.dart';
-import 'package:bima_application/core/platform/network_info.dart';
+import 'package:bima_application/core/exceptions/expceptions.dart';
 import 'package:bima_application/features/data/datasources/binding/local/doctor_local_data_source.dart';
 import 'package:bima_application/features/data/datasources/binding/remote/doctor_remote_data_source.dart';
-import 'package:bima_application/features/data/datasources/binding/tables/doctor_table.dart';
 import 'package:bima_application/features/data/models/doctor_model.dart';
 import 'package:bima_application/features/domain/entities/doctor.dart';
 import 'package:bima_application/features/domain/repositories/doctor_list_repository.dart';
 import 'package:dartz/dartz.dart';
+
 
 class DoctorListRepositoryImpl implements DoctorListRepository{
  final DoctorRemoteDataSource remoteDataSource;
@@ -25,7 +24,18 @@ class DoctorListRepositoryImpl implements DoctorListRepository{
 
   @override
   Future<Either<Failure, List<Doctor>>> getDoctorList() async{
+    List<DoctorModel> doctorsList = await localDataSource.getDoctorList();
 
+    if (doctorsList.isNotEmpty) {
+      return Right(doctorsList);
+    }else{
+
+        doctorsList = await remoteDataSource.getDoctorList();
+        await localDataSource.deleteDoctorsList();
+        await localDataSource.updateDoctorsList(doctorsList);
+        return Right(doctorsList);
+
+    }
 
       final doctorList = await remoteDataSource.getDoctorList();
       // await localDataSource.cacheDoctorList(doctorList);
@@ -33,16 +43,16 @@ class DoctorListRepositoryImpl implements DoctorListRepository{
 
   }
 
-  @override
+/*  @override
   Future<Either<AppError, void>> cacheDoctorList(DoctorModel doctorModel) async {
     try {
-      final response = await localDataSource.cacheDoctorList(DoctorTable.fromDoctorModel(doctorModel));
+      final response = await localDataSource.cacheDoctorList(DoctorTable.fromModel(doctorModel));
       print('local cache: $doctorModel');
       return Right(response);
     } on Exception {
       return Left(AppError(AppErrorType.database));
     }
-  }
+  }*/
 
 }
 

@@ -32,14 +32,32 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
     // ignore: prefer_function_declarations_over_variables
     final PhoneCodeSent phoneCodeSent =
         (String verificationId, [int? forceResendingToken]) {};
-    await auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: phoneVerificationCompleted,
-      verificationFailed: phoneVerificationFailed,
-      timeout: const Duration(seconds: 60),
-      codeSent: phoneCodeSent,
-      codeAutoRetrievalTimeout: phoneCodeAutoRetrievalTimeout,
+
+    // await auth.verifyPhoneNumber(
+    //   phoneNumber: phoneNumber,
+    //   verificationCompleted: phoneVerificationCompleted,
+    //   verificationFailed: phoneVerificationFailed,
+    //   timeout: const Duration(seconds: 60),
+    //   codeSent: phoneCodeSent,
+    //   codeAutoRetrievalTimeout: phoneCodeAutoRetrievalTimeout,
+    // );
+
+    await  auth.signInWithPhoneNumber(
+        phoneNumber,
+       /* RecaptchaVerifier(
+          container: 'recaptcha',
+          size: RecaptchaVerifierSize.compact,
+          theme: RecaptchaVerifierTheme.dark,
+        )*/);
+    RecaptchaVerifier(
+      onSuccess: () => print('reCAPTCHA Completed!'),
+      onError: (FirebaseAuthException error) => print(error),
+      onExpired: () => print('reCAPTCHA Expired!'),
     );
+     /*ConfirmationResult confirmationResult =
+     await auth.signInWithPhoneNumber(phoneNumber);*/
+    //
+    //
   }
 
   @override
