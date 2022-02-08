@@ -1,5 +1,8 @@
+
 import 'package:bima_application/core/config/di.dart';
 import 'package:bima_application/features/presentation/bloc/login/login_bloc.dart';
+import 'package:bima_application/features/presentation/cubits/auth_cubit.dart';
+import 'package:bima_application/features/presentation/cubits/auth_state.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    _bloc.close();
+   _bloc.close();
     super.dispose();
   }
 
@@ -35,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget body() {
     return BlocProvider(
       create: (context) => _bloc,
-      child: BlocBuilder<LoginBloc, LoginState>(
+      child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return Container(
             alignment: Alignment.center,
