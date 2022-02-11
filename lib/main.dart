@@ -1,22 +1,20 @@
 import 'dart:async';
 
 import 'package:bima_application/core/util/constants.dart';
-import 'package:bima_application/features/domain/entities/doctor.dart';
-import 'package:bima_application/features/presentation/pages/doctor/doctor_detail_page.dart';
+import 'package:bima_application/features/doctor/domain/entities/doctor.dart';
+import 'package:bima_application/features/doctor/presentation/pages/doctor_detail_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'core/config/di.dart' as di;
 import 'core/config/di.dart';
-import 'features/data/datasources/binding/tables/doctor_table.dart';
-import 'features/presentation/bloc/doctor_list/doctor_bloc.dart';
-import 'features/presentation/cubits/auth_cubit.dart';
-import 'features/presentation/cubits/auth_state.dart';
-import 'features/presentation/pages/doctor/doctor_list_page.dart';
-import 'features/presentation/pages/authentication/firebase_auth_page.dart';
-import 'features/presentation/theme/theme.dart';
-import 'features/presentation/widgets/app.dart';
+import 'core/theme/theme.dart';
+import 'features/doctor/data/datasources/binding/tables/doctor_table.dart';
+import 'features/doctor/presentation/bloc/doctor_bloc.dart';
+import 'features/firebaseauth/presentation/cubits/auth_cubit.dart';
+import 'features/firebaseauth/presentation/cubits/auth_state.dart';
+import 'features/firebaseauth/presentation/pages/firebase_auth_page.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 
@@ -60,7 +58,6 @@ final Future<FirebaseApp> initialization = Firebase.initializeApp();
           future: initialization,
           builder: (context,snapshot){
             if(snapshot.hasError){
-              print('Error');
             }
             if(snapshot.connectionState == ConnectionState.done){
               return  MultiBlocProvider(
@@ -146,7 +143,6 @@ class _TestClassState extends State<TestClass> {
                      return ListView.builder(
                      itemCount: state.listOfDoctors.length,
                      itemBuilder: (context, index){
-                       print('Doctor list ${state.listOfDoctors[index].firstName}');
                        return ListTile(
                          subtitle: Column(
                            crossAxisAlignment: CrossAxisAlignment.start,

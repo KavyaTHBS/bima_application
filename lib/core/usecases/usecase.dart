@@ -1,5 +1,5 @@
-import 'package:bima_application/core/error/app_error.dart';
-import 'package:bima_application/core/error/failures.dart';
+import 'package:bima_application/core/exceptions/app_error.dart';
+import 'package:bima_application/core/exceptions/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 

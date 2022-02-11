@@ -1,9 +1,7 @@
 import 'package:bima_application/core/platform/network_info.dart';
-import 'package:bima_application/features/data/datasources/binding/local/doctor_local_data_source.dart';
-import 'package:bima_application/features/data/datasources/binding/remote/doctor_remote_data_source.dart';
-import 'package:bima_application/features/data/models/doctor_model.dart';
-import 'package:bima_application/features/data/repositories/doctor_list_repository_impl.dart';
-import 'package:bima_application/features/domain/entities/doctor.dart';
+import 'package:bima_application/features/doctor/data/datasources/binding/local/doctor_local_data_source.dart';
+import 'package:bima_application/features/doctor/data/datasources/binding/remote/doctor_remote_data_source.dart';
+import 'package:bima_application/features/doctor/data/repositories/doctor_list_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -26,7 +24,6 @@ void main(){
     repositoryImpl = DoctorListRepositoryImpl(
       remoteDataSource: mockRemoteDataSource!,
       localDataSource: mockLocalDataSource!,
-      networkInfo: mockNetworkInfo!,
     );
 
   });
