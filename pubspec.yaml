@@ -65,6 +65,7 @@ dependencies:
   hive: ^2.0.5
   hive_flutter: ^1.1.0
   country_pickers: ^2.0.0
+  http: ^0.13.4
 
   #data_connection_checker: ^0.3.4
 
@@ -75,6 +76,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mockito: ^5.0.17
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
