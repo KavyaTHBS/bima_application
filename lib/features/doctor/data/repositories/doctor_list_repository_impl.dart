@@ -1,6 +1,7 @@
 import 'package:bima_application/core/exceptions/failure.dart';
 import 'package:bima_application/features/doctor/data/datasources/binding/local/doctor_local_data_source.dart';
 import 'package:bima_application/features/doctor/data/datasources/binding/remote/doctor_remote_data_source.dart';
+import 'package:bima_application/features/doctor/data/datasources/binding/tables/doctor_table.dart';
 import 'package:bima_application/features/doctor/data/models/doctor_model.dart';
 import 'package:bima_application/features/doctor/domain/entities/doctor.dart';
 import 'package:bima_application/features/doctor/domain/repositories/doctor_list_repository.dart';
@@ -17,15 +18,21 @@ class DoctorListRepositoryImpl implements DoctorListRepository {
 
   @override
   Future<Either<Failure, List<Doctor>>> getDoctorList() async {
-    List<DoctorModel> doctorsList = await localDataSource.getDoctorList();
+    List<DoctorTable> doctorsList = await localDataSource.getDoctorList();
 
     if (doctorsList.isNotEmpty) {
-      return Right(doctorsList);
+      return Right(doctorsList.map((e) => e.toEntity(e)).toList());
     } else {
-      doctorsList = await remoteDataSource.getDoctorList();
+      doctorsList.clear();
+      final doctorListFromRemote = await remoteDataSource.getDoctorList();
+      List<Doctor> doctor = doctorListFromRemote.map((e) => e.toEntity()).toList();
+      List<DoctorTable> doctorsTable =
+      doctor.map((element) => DoctorTable.fromEntity(element)).toList();
+      await localDataSource.updateDoctorsList(doctorListFromRemote);
       await localDataSource.deleteDoctorsList();
-      await localDataSource.updateDoctorsList(doctorsList);
-      return Right(doctorsList);
+
+      return Right(doctorListFromRemote.map((e) => e.toEntity()).toList());
+
     }
   }
 }
