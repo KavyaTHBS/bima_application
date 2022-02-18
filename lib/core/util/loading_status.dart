@@ -1,5 +1,5 @@
-import 'package:bima_application/features/domain/entities/doctor.dart';
-import 'package:bima_application/features/presentation/bloc/doctor_list/doctor_bloc.dart';
+import 'package:bima_application/features/doctor/domain/entities/doctor.dart';
+import 'package:bima_application/features/doctor/presentation/bloc/doctor_bloc.dart';
 
 class DoctorListLoaded extends DoctorBlocState{
   final List<Doctor> doctorList;
